@@ -15,15 +15,19 @@ const app = express();
 // app.use(allowCrossDomain);
 
 app.use(cors({
-    origin : '*',
+    origin : ["http://localhost:3000",process.env.FRONTEND_URL],
     credentials : true
-}))
+}));
 // app.use(cors());
 
 
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', req.header('origin') );
+  next();
+});
 app.use("/api", router);
 
 const PORT = 8080 || process.env.PORT;
